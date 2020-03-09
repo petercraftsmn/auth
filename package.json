@@ -1,0 +1,26 @@
+{
+  "name": "@petercraftsmn/auth",
+  "version": "1.0.0",
+  "description": "General purpose authentication",
+  "main": "index.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && mocha --watch --recursive",
+    "start": "node ./server/bin/www"
+  },
+  "keywords": [
+    "auth",
+    "user"
+  ],
+  "author": "Peter Craftsmn",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "mocha": "^7.1.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "morgan": "~1.9.1"
+  },
+  "dependencies": {
+    "jwt_pc": "^1.0.3"
+  }
+}
