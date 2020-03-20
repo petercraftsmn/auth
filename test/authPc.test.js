@@ -13,7 +13,7 @@ describe( 'AuthPc middleware test', function () {
         }
     };
     let res = {};
-    let nextFunc = function ( req, res ) {
+    let nextFunc = function () {
     };
 
     afterEach( () => {
@@ -50,6 +50,15 @@ describe( 'AuthPc middleware test', function () {
                 .then( () => {
                     assert.ok( req.user.salt, 'Salt is absent' );
                     assert.ok( req.user.hash, 'Hash is absent' );
+                    done();
+                } )
+                .catch( done );
+        } );
+
+        it( 'createWebToken and attach to req.user.toen', function ( done ) {
+            authPc.createWebToken( req, res, nextFunc )
+                .then( () => {
+                    assert.ok( req.user.token, 'Token is absent' );
                     done();
                 } )
                 .catch( done );
