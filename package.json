@@ -1,6 +1,6 @@
 {
   "name": "@petercraftsmn/auth",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "General purpose authentication",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,6 @@
     "morgan": "~1.9.1"
   },
   "dependencies": {
-    "jwt_pc": "^1.0.3"
+    "@petercraftsmn/crypt": "^2.0.1"
   }
 }
