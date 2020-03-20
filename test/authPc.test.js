@@ -5,11 +5,12 @@ const AuthPc = require( '../lib/AuthPc' );
 
 describe( 'AuthPc middleware test', function () {
     const authPc = new AuthPc( keys );
+    const userId = "kkjwhhwllwhwl3l3hh4lljssl";
     let req = {
         user: {
             username: "peter@example.com",
             password: "my-secret-password",
-            _id: "kkjwhhwllwhwl3l3hh4lljssl"
+            _id: userId
         }
     };
     let res = {};
@@ -21,7 +22,7 @@ describe( 'AuthPc middleware test', function () {
             user: {
                 username: "peter@example.com",
                 password: "my-secret-password",
-                _id: "kkjwhhwllwhwl3l3hh4lljssl"
+                _id: userId
             }
         };
     } );
@@ -55,17 +56,24 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
-        it( 'createWebToken and attach to req.user.toen', function ( done ) {
-            authPc.createWebToken( req, res, nextFunc )
+        it( 'createWebTokenSignedEncrypted and readWebTokenSignedEncrypted', function ( done ) {
+            authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
+                    req.user._id = null;
                     assert.ok( req.user.token, 'Token is absent' );
+                } )
+                .then( () => {
+                    authPc.readWebTokenSignedEncrypted( req, res, nextFunc );
+                } )
+                .then( () => {
+                    assert.equal( req.user._id, userId );
                     done();
                 } )
                 .catch( done );
         } );
 
         it( 'createPasswordResetToken and attach to req', function ( done ) {
-            authPc.createPasswordResetToken( req, res, nextFunc )
+            authPc.createPasswordResetTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
                     assert.ok( req.user.token, 'Token is absent' );
                     done();
