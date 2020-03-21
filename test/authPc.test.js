@@ -91,11 +91,23 @@ describe( 'AuthPc middleware test', function () {
         it( 'comparePasswordHash', function ( done ) {
             authPc.createSaltAndPasswordHash( req, res, nextFunc )
                 .then( () => {
-                    console.log( req.user );
-                    done();
+                    // Emulate storedUser and username password coming from client
+                    req.user.storedUser = { ...req.user, password: null };
+                    req.user.id = null;
+                    req.user.type = null;
+                    req.user.hash = null;
                 } )
+                .then(()=> {
+                    authPc.createPasswordHash( req, res, nextFunc );
+                })
+                .then(()=>{
+                    authPc.comparePasswordHash( req, res, nextFunc );
+                })
+                .then(()=>{
+                    assert.strictEqual( req.user.id, userId, 'User id is not same' );
+                    done();
+                })
                 .catch( done );
-
         } );
     } );
 
