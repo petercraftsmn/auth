@@ -56,7 +56,7 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
-        it( 'createWebTokenSignedEncrypted and readWebTokenSignedEncrypted', function ( done ) {
+        it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted', function ( done ) {
             authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
                     req.user.id = null;
@@ -67,6 +67,23 @@ describe( 'AuthPc middleware test', function () {
                 } )
                 .then( () => {
                     assert.equal( req.user.id, userId );
+                    done();
+                } )
+                .catch( done );
+        } );
+
+        it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted fails', function ( done ) {
+            authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
+                .then( () => {
+                    req.user.id = null;
+                    assert.ok( req.user.webToken, 'webToken is absent' );
+                    req.user.webToken = 'some_bad_text';
+                } )
+                .then( () => {
+                    authPc.decryptWebTokenSignedEncrypted( req, res, nextFunc );
+                } )
+                .then( () => {
+                    assert.strictEqual( req.user, null );
                     done();
                 } )
                 .catch( done );
