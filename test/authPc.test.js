@@ -10,7 +10,7 @@ describe( 'AuthPc middleware test', function () {
         user: {
             username: "peter@example.com",
             password: "my-secret-password",
-            _id: userId
+            id: userId
         }
     };
     let res = {};
@@ -22,7 +22,7 @@ describe( 'AuthPc middleware test', function () {
             user: {
                 username: "peter@example.com",
                 password: "my-secret-password",
-                _id: userId
+                id: userId
             }
         };
     } );
@@ -59,14 +59,14 @@ describe( 'AuthPc middleware test', function () {
         it( 'createWebTokenSignedEncrypted and readWebTokenSignedEncrypted', function ( done ) {
             authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
-                    req.user._id = null;
+                    req.user.id = null;
                     assert.ok( req.user.token, 'Token is absent' );
                 } )
                 .then( () => {
                     authPc.readWebTokenSignedEncrypted( req, res, nextFunc );
                 } )
                 .then( () => {
-                    assert.equal( req.user._id, userId );
+                    assert.equal( req.user.id, userId );
                     done();
                 } )
                 .catch( done );
@@ -80,6 +80,20 @@ describe( 'AuthPc middleware test', function () {
                 } )
                 .catch( done );
         } );
+
+        it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64', function ( done ) {
+            // console.log( req.user );
+            authPc.createWebTokenSignedBase64( req, res, nextFunc )
+                .then( () => {
+                    // console.log( req.user );
+                    // authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
+                } )
+                .then( () => {
+                    // console.log( req.user );
+                    done();
+                } )
+                .catch( done );
+        } )
     } );
 
 } );
