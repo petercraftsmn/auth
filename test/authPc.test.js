@@ -72,7 +72,7 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
-        it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted fails', function ( done ) {
+        it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted should fail', function ( done ) {
             authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
                     req.user.id = null;
@@ -105,6 +105,22 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
+        it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64 should fail', function ( done ) {
+            // console.log( req.user );
+            authPc.createWebTokenSignedBase64( req, res, nextFunc )
+                .then( async () => {
+                    // Remove extra data from user object
+                    req.user = { webToken: 'bad_text' };
+                    await authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
+                } )
+                .then( () => {
+                    assert.deepStrictEqual( req.user, null,
+                        "User not null" );
+                    done();
+                } )
+                .catch( done );
+        } );
+
         it( 'comparePasswordHash', function ( done ) {
             authPc.createSaltAndPasswordHash( req, res, nextFunc )
                 .then( () => {
@@ -127,7 +143,7 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
-        it( 'comparePasswordHash should fail with wrong hash', function ( done ) {
+        it( 'comparePasswordHash should fail', function ( done ) {
             authPc.createSaltAndPasswordHash( req, res, nextFunc )
                 .then( () => {
                     // Emulate storedUser and username password coming from client
