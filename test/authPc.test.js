@@ -72,15 +72,6 @@ describe( 'AuthPc middleware test', function () {
                 .catch( done );
         } );
 
-        it( 'createPasswordResetToken and attach to req', function ( done ) {
-            authPc.createPasswordResetTokenSignedEncrypted( req, res, nextFunc )
-                .then( () => {
-                    assert.ok( req.user.token, 'Token is absent' );
-                    done();
-                } )
-                .catch( done );
-        } );
-
         it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64', function ( done ) {
             // console.log( req.user );
             authPc.createWebTokenSignedBase64( req, res, nextFunc )
@@ -95,7 +86,17 @@ describe( 'AuthPc middleware test', function () {
                     done();
                 } )
                 .catch( done );
-        } )
+        } );
+
+        it( 'comparePasswordHash', function ( done ) {
+            authPc.createSaltAndPasswordHash( req, res, nextFunc )
+                .then( () => {
+                    console.log( req.user );
+                    done();
+                } )
+                .catch( done );
+
+        } );
     } );
 
 } );
