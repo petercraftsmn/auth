@@ -84,12 +84,14 @@ describe( 'AuthPc middleware test', function () {
         it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64', function ( done ) {
             // console.log( req.user );
             authPc.createWebTokenSignedBase64( req, res, nextFunc )
-                .then( () => {
-                    // console.log( req.user );
-                    // authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
+                .then( async () => {
+                    // Remove extra data from user object
+                    req.user = { webToken: req.user.webToken };
+                    await authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
                 } )
                 .then( () => {
-                    // console.log( req.user );
+                    assert.deepStrictEqual( req.user.id, userId,
+                        "Decrypted id is not same" );
                     done();
                 } )
                 .catch( done );
