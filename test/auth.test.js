@@ -1,10 +1,10 @@
 const assert = require( 'assert' ).strict;
 const keys = require( './keys/keys' );
-const AuthPc = require( '../lib/Auth' );
+const Auth = require( '../lib/Auth' );
 
 
 describe( 'Auth test', function () {
-    const authPc = new AuthPc( keys );
+    const authPc = new Auth( keys );
     const userId = "kkjwhhwllwhwl3l3hh4lljssl";
     let req = {
         user: {
