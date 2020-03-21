@@ -109,6 +109,28 @@ describe( 'AuthPc middleware test', function () {
                 })
                 .catch( done );
         } );
+
+        it( 'comparePasswordHash should fail with wrong hash', function ( done ) {
+            authPc.createSaltAndPasswordHash( req, res, nextFunc )
+                .then( () => {
+                    // Emulate storedUser and username password coming from client
+                    req.user.storedUser = { ...req.user, password: null, hash: 'wrong_hash' };
+                    req.user.id = null;
+                    req.user.type = null;
+                    req.user.hash = null;
+                } )
+                .then(()=> {
+                    authPc.createPasswordHash( req, res, nextFunc );
+                })
+                .then(()=>{
+                    authPc.comparePasswordHash( req, res, nextFunc );
+                })
+                .then(()=>{
+                    assert.strictEqual( req.user, null, 'User is not null' );
+                    done();
+                })
+                .catch( done );
+        } );
     } );
 
 } );
