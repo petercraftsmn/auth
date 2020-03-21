@@ -1,2 +1,2 @@
-module.exports = require( './lib/AuthPc' );
+module.exports = require( './lib/Auth' );
 

@@ -1,6 +1,6 @@
 const assert = require( 'assert' ).strict;
 const keys = require( './keys/keys' );
-const AuthPc = require( '../lib/AuthPc' );
+const AuthPc = require( '../lib/Auth' );
 
 
 describe( 'AuthPc middleware test', function () {
@@ -63,7 +63,7 @@ describe( 'AuthPc middleware test', function () {
                     assert.ok( req.user.token, 'Token is absent' );
                 } )
                 .then( () => {
-                    authPc.readWebTokenSignedEncrypted( req, res, nextFunc );
+                    authPc.decryptWebTokenSignedEncrypted( req, res, nextFunc );
                 } )
                 .then( () => {
                     assert.equal( req.user.id, userId );
