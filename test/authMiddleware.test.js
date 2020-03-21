@@ -1,12 +1,12 @@
 const assert = require( 'assert' ).strict;
 const keys = require( './keys/keys' );
-const JwtMiddleware = require( '../lib/JwtMiddleware' );
+const JwtMiddleware = require( '../lib/AuthMiddleware' );
 
 
 describe( 'Auth middleware test', function () {
     const jwtMiddleware = new JwtMiddleware( keys );
 
-    describe( 'parseJwtTokenFromBody middleware test in jwtMiddleware.js file', function () {
+    describe( 'testing auth middleware success and failure', function () {
 
         let nextFunc = function ( req, res ) {
         };

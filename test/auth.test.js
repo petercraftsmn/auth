@@ -3,7 +3,7 @@ const keys = require( './keys/keys' );
 const AuthPc = require( '../lib/Auth' );
 
 
-describe( 'AuthPc middleware test', function () {
+describe( 'Auth test', function () {
     const authPc = new AuthPc( keys );
     const userId = "kkjwhhwllwhwl3l3hh4lljssl";
     let req = {
@@ -24,7 +24,7 @@ describe( 'AuthPc middleware test', function () {
         };
     } );
 
-    describe( 'create salt, hash and tokens', function () {
+    describe( 'testing auth methods success and failure', function () {
         it( 'createSalt and attach to req', function ( done ) {
             authPc.createSalt( req )
                 .then( () => {
