@@ -1,6 +1,6 @@
 {
   "name": "@petercraftsmn/auth",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "General purpose authentication",
   "main": "index.js",
   "scripts": {

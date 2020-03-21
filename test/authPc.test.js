@@ -60,7 +60,7 @@ describe( 'AuthPc middleware test', function () {
             authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
                 .then( () => {
                     req.user.id = null;
-                    assert.ok( req.user.token, 'Token is absent' );
+                    assert.ok( req.user.webToken, 'webToken is absent' );
                 } )
                 .then( () => {
                     authPc.decryptWebTokenSignedEncrypted( req, res, nextFunc );
