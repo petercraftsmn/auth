@@ -13,9 +13,6 @@ describe( 'AuthPc middleware test', function () {
             id: userId
         }
     };
-    let res = {};
-    let nextFunc = function () {
-    };
 
     afterEach( () => {
         req = {
@@ -29,7 +26,7 @@ describe( 'AuthPc middleware test', function () {
 
     describe( 'create salt, hash and tokens', function () {
         it( 'createSalt and attach to req', function ( done ) {
-            authPc.createSalt( req, res, nextFunc )
+            authPc.createSalt( req )
                 .then( () => {
                     assert.ok( req.user.salt, 'Salt is absent' );
                     done();
@@ -38,7 +35,7 @@ describe( 'AuthPc middleware test', function () {
         } );
 
         it( 'createPasswordHash and attach to req', function ( done ) {
-            authPc.createPasswordHash( req, res, nextFunc )
+            authPc.createPasswordHash( req )
                 .then( () => {
                     assert.ok( req.user.hash, 'Hash is absent' );
                     done();
@@ -47,7 +44,7 @@ describe( 'AuthPc middleware test', function () {
         } );
 
         it( 'createSaltAndPasswordHash and attach to req', function ( done ) {
-            authPc.createSaltAndPasswordHash( req, res, nextFunc )
+            authPc.createSaltAndPasswordHash( req )
                 .then( () => {
                     assert.ok( req.user.salt, 'Salt is absent' );
                     assert.ok( req.user.hash, 'Hash is absent' );
@@ -57,13 +54,13 @@ describe( 'AuthPc middleware test', function () {
         } );
 
         it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted', function ( done ) {
-            authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
+            authPc.createWebTokenSignedEncrypted( req )
                 .then( () => {
                     req.user.id = null;
                     assert.ok( req.user.webToken, 'webToken is absent' );
                 } )
                 .then( () => {
-                    authPc.decryptWebTokenSignedEncrypted( req, res, nextFunc );
+                    authPc.decryptWebTokenSignedEncrypted( req );
                 } )
                 .then( () => {
                     assert.equal( req.user.id, userId );
@@ -73,14 +70,14 @@ describe( 'AuthPc middleware test', function () {
         } );
 
         it( 'createWebTokenSignedEncrypted and decryptWebTokenSignedEncrypted should fail', function ( done ) {
-            authPc.createWebTokenSignedEncrypted( req, res, nextFunc )
+            authPc.createWebTokenSignedEncrypted( req )
                 .then( () => {
                     req.user.id = null;
                     assert.ok( req.user.webToken, 'webToken is absent' );
                     req.user.webToken = 'some_bad_text';
                 } )
                 .then( () => {
-                    authPc.decryptWebTokenSignedEncrypted( req, res, nextFunc );
+                    authPc.decryptWebTokenSignedEncrypted( req );
                 } )
                 .then( () => {
                     assert.strictEqual( req.user, null );
@@ -91,11 +88,11 @@ describe( 'AuthPc middleware test', function () {
 
         it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64', function ( done ) {
             // console.log( req.user );
-            authPc.createWebTokenSignedBase64( req, res, nextFunc )
+            authPc.createWebTokenSignedBase64( req )
                 .then( async () => {
                     // Remove extra data from user object
                     req.user = { webToken: req.user.webToken };
-                    await authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
+                    await authPc.decryptVerifyWebTokenSignedBase64( req );
                 } )
                 .then( () => {
                     assert.deepStrictEqual( req.user.id, userId,
@@ -107,11 +104,11 @@ describe( 'AuthPc middleware test', function () {
 
         it( 'createWebTokenSignedBase64 and decryptWebTokenSignedBase64 should fail', function ( done ) {
             // console.log( req.user );
-            authPc.createWebTokenSignedBase64( req, res, nextFunc )
+            authPc.createWebTokenSignedBase64( req )
                 .then( async () => {
                     // Remove extra data from user object
                     req.user = { webToken: 'bad_text' };
-                    await authPc.decryptVerifyWebTokenSignedBase64( req, res, nextFunc );
+                    await authPc.decryptVerifyWebTokenSignedBase64( req );
                 } )
                 .then( () => {
                     assert.deepStrictEqual( req.user, null,
@@ -122,7 +119,7 @@ describe( 'AuthPc middleware test', function () {
         } );
 
         it( 'comparePasswordHash', function ( done ) {
-            authPc.createSaltAndPasswordHash( req, res, nextFunc )
+            authPc.createSaltAndPasswordHash( req )
                 .then( () => {
                     // Emulate storedUser and username password coming from client
                     req.user.storedUser = { ...req.user, password: null };
@@ -130,21 +127,21 @@ describe( 'AuthPc middleware test', function () {
                     req.user.type = null;
                     req.user.hash = null;
                 } )
-                .then(()=> {
-                    authPc.createPasswordHash( req, res, nextFunc );
-                })
-                .then(()=>{
-                    authPc.comparePasswordHash( req, res, nextFunc );
-                })
-                .then(()=>{
+                .then( () => {
+                    authPc.createPasswordHash( req );
+                } )
+                .then( () => {
+                    authPc.comparePasswordHash( req );
+                } )
+                .then( () => {
                     assert.strictEqual( req.user.id, userId, 'User id is not same' );
                     done();
-                })
+                } )
                 .catch( done );
         } );
 
         it( 'comparePasswordHash should fail', function ( done ) {
-            authPc.createSaltAndPasswordHash( req, res, nextFunc )
+            authPc.createSaltAndPasswordHash( req )
                 .then( () => {
                     // Emulate storedUser and username password coming from client
                     req.user.storedUser = { ...req.user, password: null, hash: 'wrong_hash' };
@@ -152,16 +149,16 @@ describe( 'AuthPc middleware test', function () {
                     req.user.type = null;
                     req.user.hash = null;
                 } )
-                .then(()=> {
-                    authPc.createPasswordHash( req, res, nextFunc );
-                })
-                .then(()=>{
-                    authPc.comparePasswordHash( req, res, nextFunc );
-                })
-                .then(()=>{
+                .then( () => {
+                    authPc.createPasswordHash( req );
+                } )
+                .then( () => {
+                    authPc.comparePasswordHash( req );
+                } )
+                .then( () => {
                     assert.strictEqual( req.user, null, 'User is not null' );
                     done();
-                })
+                } )
                 .catch( done );
         } );
     } );
