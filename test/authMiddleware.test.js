@@ -29,9 +29,9 @@ describe( 'Auth middleware test', function () {
                 .then( () => {
                     // console.log( req );
                     // console.log( req.parsed_token );
-                    assert.strictEqual( req.parsed_token.header.alg, jwtHeader.alg,
+                    assert.deepStrictEqual( req.parsed_token.header.alg, jwtHeader.alg,
                         'Parsed jwt header are not same as given header' );
-                    assert.strictEqual( req.parsed_token.payload._id, jwtBody._id,
+                    assert.deepStrictEqual( req.parsed_token.payload.id, jwtBody.id,
                         'Parsed jwt payload._id is not correct' );
                     done();
                 } )
@@ -75,8 +75,8 @@ describe( 'Auth middleware test', function () {
             jwtMiddleware.bodyJwtToUser( req, res, nextFunc )
                 .then( () => {
                     // console.log( req );
-                    assert.strictEqual( req.user._id, null,
-                        'Parsed user._id is not null' );
+                    assert.strictEqual( req.user.id, null,
+                        'Parsed user.id is not null' );
                     done();
                 } )
                 .catch( err => done( err ) );
@@ -104,9 +104,9 @@ describe( 'Auth middleware test', function () {
                 .then( () => {
                     // console.log( req );
                     // console.log( req.parsed_token );
-                    assert.strictEqual( req.parsed_token.header.alg, jwtHeader.alg,
+                    assert.deepStrictEqual( req.parsed_token.header.alg, jwtHeader.alg,
                         'Parsed jwt header are not same as given header' );
-                    assert.strictEqual( req.parsed_token.payload._id, jwtBody._id,
+                    assert.deepStrictEqual( req.parsed_token.payload.id, jwtBody.id,
                         'Parsed jwt payload._id is not correct' );
                     done();
                 } )
@@ -162,7 +162,7 @@ describe( 'Auth middleware test', function () {
             jwtMiddleware.headerJwtToUser( req, res, nextFunc )
                 .then( () => {
                     // console.log( req );
-                    assert.strictEqual( req.user._id, null,
+                    assert.strictEqual( req.user.id, null,
                         'Parsed user._id is not null' );
                     done();
                 } )
