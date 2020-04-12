@@ -1,2 +1,2 @@
-module.exports = require( './lib/Auth' );
+module.exports = require( './lib/AuthMiddleware' );
 
