@@ -1,6 +1,7 @@
 {
   "name": "@petercraftsmn/auth",
-  "version": "2.0.4",
+  "version": "3.0.0",
+  "repository": "https://github.com/petercraftsmn/auth",
   "description": "General purpose authentication",
   "main": "index.js",
   "scripts": {
@@ -20,7 +21,5 @@
     "debug": "~2.6.9",
     "morgan": "~1.9.1"
   },
-  "dependencies": {
-    "@petercraftsmn/crypt": "^2.0.3"
-  }
+  "dependencies": {}
 }
