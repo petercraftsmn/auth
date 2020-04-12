@@ -169,6 +169,20 @@ describe( 'Auth middleware test', function () {
                 .catch( err => done( err ) );
         } );
 
+        it( 'Creates web token and attaches to user object', ( done ) => {
+            let req = {
+                user: { type: [ 1, 2 ], id: "128837730383" }
+            };
+
+            let res = {};
+
+            jwtMiddleware.createWebTokenUserIdAndType( req, res, nextFunc )
+                .then( () => {
+                    assert.ok( req.user.webToken );
+                    done();
+                } )
+                .catch( done );
+        } )
     } );
 
 } );
