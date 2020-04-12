@@ -5,7 +5,8 @@
  ******************************************************************************/
 
 const assert = require( 'assert' ).strict;
-const authUtil = require( '../lib/AuthUtil' );
+const AuthUtil = require( '../lib/AuthUtil' );
+const authUtil = new AuthUtil();
 
 describe( 'AuthUtil test', () => {
 

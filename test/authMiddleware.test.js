@@ -1,6 +1,8 @@
 const assert = require( 'assert' ).strict;
 const keys = require( './keys/keys' );
 const JwtMiddleware = require( '../lib/AuthMiddleware' );
+const Auth = require( '../lib/Auth' );
+const auth = new Auth( keys );
 
 
 describe( 'Auth middleware test', function () {
@@ -15,7 +17,7 @@ describe( 'Auth middleware test', function () {
 
             let jwtHeader = { alg: "sha256" };
             let jwtBody = { name: "peter singh", id: "128837730383" };
-            let token = jwtMiddleware.createJWT( jwtHeader, jwtBody );
+            let token = auth.createJWT( jwtHeader, jwtBody );
 
             let req = {
                 body: {
@@ -86,7 +88,7 @@ describe( 'Auth middleware test', function () {
 
             let jwtHeader = { alg: "sha256" };
             let jwtBody = { name: "peter singh", id: "128837730383" };
-            let token = jwtMiddleware.createJWT( jwtHeader, jwtBody );
+            let token = auth.createJWT( jwtHeader, jwtBody );
 
             let req = {
                 'Authorization': token,
