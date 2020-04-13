@@ -5,8 +5,7 @@
   "description": "General purpose authentication",
   "main": "index.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha --watch --recursive",
-    "start": "node ./server/bin/www"
+    "test": "export NODE_ENV=test && mocha --watch --recursive"
   },
   "keywords": [
     "auth",
@@ -15,11 +14,7 @@
   "author": "Peter Craftsmn",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.17.1",
-    "mocha": "^7.1.0",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "morgan": "~1.9.1"
+    "mocha": "^7.1.0"
   },
   "dependencies": {}
 }
