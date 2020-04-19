@@ -22,4 +22,4 @@ $ npm install @petercraftsmn/auth
 ```
 
 [npm-url]: https://www.npmjs.com/package/@petercraftsmn/auth
-[npm-image]: https://img.shields.io/npm/v/express.svg
+[npm-image]: https://img.shields.io/npm/v/@petercraftsmn/auth
