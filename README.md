@@ -1,3 +1,4 @@
+ [![NPM Version][npm-image]][npm-url]
 ### Auth
 
   Fast, unopinionated, minimalist library for general purpose authentication
@@ -20,3 +21,5 @@ Installation is done using the
 $ npm install @petercraftsmn/auth
 ```
 
+[npm-url]: https://www.npmjs.com/package/@petercraftsmn/auth
+[npm-image]: https://img.shields.io/npm/v/express.svg
